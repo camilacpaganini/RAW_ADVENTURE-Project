@@ -1,0 +1,55 @@
+version: 2
+
+models:
+  - name: dim_produto
+    description: "Dimensão de produtos, contendo informações detalhadas sobre cada item vendido pela Adventure Works."
+    columns:
+      - name: pk_produto
+        description: "Chave primária da dimensão produto."
+        tests:
+          - unique
+          - not_null
+
+      - name: fk_subcategoriaproduto
+        description: "Chave estrangeira para a subcategoria do produto."
+
+      - name: fk_categoriaproduto
+        description: "Chave estrangeira para a categoria do produto."
+
+      - name: nome_produto
+        description: "Nome do produto."
+
+      - name: numero_produto
+        description: "Código único do produto."
+
+      - name: lista_preco
+        description: "Preço de lista do produto."
+
+      - name: linha_produto
+        description: "Linha à qual o produto pertence."
+
+      - name: classe_produto
+        description: "Classe do produto."
+
+      - name: estilo_produto
+        description: "Estilo do produto."
+
+      - name: dt_inicio_vendas
+        description: "Data de início das vendas do produto."
+
+      - name: dias_para_fabricacao
+        description: "Número de dias necessários para fabricação do produto."
+
+      - name: eh_fabricado_internamente
+        description: "Indica se o produto é fabricado internamente (TRUE/FALSE)."
+
+      - name: eh_produto_final
+        description: "Indica se o produto é um produto final (TRUE/FALSE)."
+
+      - name: nome_subcategoria
+        description: "Nome da subcategoria do produto."
+
+      - name: nome_categoriaproduto
+        description: "Nome da categoria do produto."
+
+

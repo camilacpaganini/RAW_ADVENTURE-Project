@@ -1,0 +1,45 @@
+sources:
+  - name: erp
+    description: "Sistema de Vendas ADVENTURE"
+    database: FEA24_11
+    schema: RAW_ADVENTURE_WORKS
+    tables:
+      - name: Product
+        description: "Tabela bruta de produtos."
+        columns:
+          - name: PRODUCTID
+            description: "Chave primária do produto."
+            tests:
+              - unique
+              - not_null
+          - name: PRODUCTSUBCATEGORYID
+            description: "Chave estrangeira para subcategoria."
+            tests:
+              - relationships:
+                  to: source('erp', 'ProductSubcategory')
+                  field: PRODUCTSUBCATEGORYID
+
+      - name: ProductCategory
+        description: "Tabela bruta de categorias de produtos."
+        columns:
+          - name: PRODUCTCATEGORYID
+            description: "Chave primária da categoria de produto."
+            tests:
+              - unique
+              - not_null
+
+      - name: ProductSubcategory
+        description: "Tabela bruta de subcategorias de produtos."
+        columns:
+          - name: PRODUCTSUBCATEGORYID
+            description: "Chave primária da subcategoria de produto."
+            tests:
+              - unique
+              - not_null
+          - name: PRODUCTCATEGORYID
+            description: "Chave estrangeira para categoria."
+            tests:
+              - relationships:
+                  to: source('erp', 'ProductCategory')
+                  field: PRODUCTCATEGORYID
+
