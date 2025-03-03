@@ -1,0 +1,19 @@
+version: 2
+
+models:
+  - name: int__prep_territorios
+    description: "Modelo intermediário que consolida os dados da tabela de SalesTerritory para a dimensão de territórios."
+    columns:
+      - name: pk_territorio
+        description: "Chave primária do território, extraída de SalesTerritory.TERRITORYID."
+        tests:
+          - unique
+          - not_null
+      - name: nome_territorio
+        description: "Nome do território, proveniente de SalesTerritory.NAME."
+      - name: codigo_pais_regiao
+        description: "Código do país ou região, extraído de SalesTerritory.COUNTRYREGIONCODE."
+      - name: grupo_territorio
+        description: "Grupo de território, obtido da coluna 'group' da tabela SalesTerritory, renomeada para evitar conflitos com palavras reservadas."
+      - name: modified_date_territorio
+        description: "Data da última modificação dos dados do território, extraída de SalesTerritory.MODIFIEDDATE."

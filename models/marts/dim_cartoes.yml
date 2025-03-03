@@ -1,0 +1,19 @@
+models:
+  - name: dim_cartoes
+    description: "Dimensão de cartões de crédito utilizados nas compras, derivada do modelo intermediário."
+    columns:
+      - name: pk_cartao_credito
+        description: "Chave primária do cartão de crédito."
+        tests:
+          - unique
+          - not_null
+      - name: tipo_cartao
+        description: "Tipo do cartão (ex: Visa, MasterCard, etc.)."
+      - name: numero_cartao
+        description: "Número do cartão (mascarado)."
+      - name: mes_expiracao
+        description: "Mês de expiração do cartão."
+      - name: ano_expiracao
+        description: "Ano de expiração do cartão."
+      - name: data_modificacao_cartao
+        description: "Data da última modificação do cadastro do cartão."

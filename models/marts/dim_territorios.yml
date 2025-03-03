@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: dim_territorios
+    description: "Dimensão contendo informações sobre territórios de venda."
+    columns:
+      - name: pk_territorio
+        description: "Chave primária do território."
+        tests:
+          - unique
+          - not_null
+
+      - name: nome_territorio
+        description: "Nome do território."
+
+      - name: codigo_pais_regiao
+        description: "Código do país ou região correspondente ao território."
+
+      - name: grupo_territorio
+        description: "Grupo de território ao qual pertence."
+
+      - name: modified_date_territorio
+        description: "Última data de modificação do território no sistema."
