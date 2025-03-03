@@ -41,5 +41,32 @@ sources:
             tests:
               - relationships:
                   to: source('erp', 'ProductCategory')
-                  field: PRODUCTCATEGORYID
+                  field: PRODUCTCATEGORYID    
 
+      - name: Customer
+        description: "Tabela bruta de clientes."
+        columns:
+          - name: CUSTOMERID
+            description: "Chave primária do cliente."
+            tests:
+              - unique
+              - not_null
+          - name: PERSONID
+            description: "Chave estrangeira para dados pessoais, quando o cliente for pessoa física."
+          - name: STOREID
+            description: "Chave estrangeira para loja, quando o cliente for pessoa jurídica."
+          - name: TERRITORYID
+            description: "Chave estrangeira para território do cliente."
+
+      - name: Person
+        description: "Tabela bruta de informações pessoais de clientes."
+        columns:
+          - name: BUSINESSENTITYID
+            description: "Chave primária que corresponde ao PERSONID na tabela Customer."
+            tests:
+              - unique
+              - not_null
+          - name: FIRSTNAME
+            description: "Primeiro nome do cliente."
+          - name: LASTNAME
+            description: "Último nome do cliente."
