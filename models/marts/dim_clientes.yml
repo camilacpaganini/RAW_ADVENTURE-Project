@@ -1,0 +1,29 @@
+models:
+  - name: dim_clientes
+    description: "Dimensão de clientes consolidada a partir das tabelas de clientes e pessoas."
+    columns:
+      - name: pk_cliente
+        description: "Chave primária do cliente."
+        tests:
+          - unique
+          - not_null
+
+      - name: fk_pessoa_cliente
+        description: "Chave estrangeira para a tabela de pessoas."
+        tests:
+          - relationships:
+              to: ref('stg__erp_pessoa')
+              field: pk_pessoa
+
+      - name: fk_loja_cliente
+        description: "Chave estrangeira para a tabela de lojas (se aplicável)."
+
+      - name: fk_territorio_cliente
+        description: "Chave estrangeira para a tabela de territórios (se aplicável)."
+
+      - name: nome_cliente
+        description: "Nome completo do cliente. Se não disponível, recebe 'Cliente Desconhecido'."
+
+      - name: modified_date_cliente
+        description: "Última data de modificação do cadastro do cliente."
+
