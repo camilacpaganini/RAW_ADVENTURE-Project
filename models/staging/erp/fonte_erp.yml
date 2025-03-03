@@ -41,7 +41,7 @@ sources:
             tests:
               - relationships:
                   to: source('erp', 'ProductCategory')
-                  field: PRODUCTCATEGORYID    
+                  field: PRODUCTCATEGORYID
 
       - name: Customer
         description: "Tabela bruta de clientes."
@@ -70,3 +70,39 @@ sources:
             description: "Primeiro nome do cliente."
           - name: LASTNAME
             description: "Último nome do cliente."
+
+      - name: SalesTerritory
+        description: "Tabela bruta de territórios de venda."
+        columns:
+          - name: TERRITORYID
+            description: "Chave primária do território."
+            tests:
+              - unique
+              - not_null
+          - name: NAME
+            description: "Nome do território."
+          - name: COUNTRYREGIONCODE
+            description: "Código do país ou região."
+          - name: group
+            description: "Grupo ou agrupamento do território."
+          - name: MODIFIEDDATE
+            description: "Data de modificação do território."
+
+      - name: CreditCard
+        description: "Tabela bruta de cartões de crédito usados nas compras."
+        columns:
+          - name: CREDITCARDID
+            description: "Chave primária do cartão de crédito."
+            tests:
+              - unique
+              - not_null
+          - name: CARDTYPE
+            description: "Tipo do cartão (ex: Visa, MasterCard, etc.)."
+          - name: CARDNUMBER
+            description: "Número do cartão (ou versão mascarada)."
+          - name: EXPMONTH
+            description: "Mês de expiração do cartão."
+          - name: EXPYEAR
+            description: "Ano de expiração do cartão."
+          - name: MODIFIEDDATE
+            description: "Data de modificação do cartão."
