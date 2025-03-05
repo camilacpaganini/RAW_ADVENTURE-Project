@@ -1,0 +1,33 @@
+models:
+  - name: dim_tempo
+    description: "Dimensão de tempo para análise temporal."
+    columns:
+      - name: pk_data
+        description: "Chave primária da data (YYYYMMDD)."
+        tests:
+          - unique
+          - not_null
+      - name: data_completa
+        description: "Data completa no formato YYYY-MM-DD."
+      - name: ano
+        description: "Ano da data."
+      - name: mes
+        description: "Mês numérico."
+      - name: dia
+        description: "Dia do mês."
+      - name: trimestre
+        description: "Trimestre correspondente."
+      - name: semana_ano
+        description: "Número da semana no ano."
+      - name: dia_semana
+        description: "Número do dia da semana (1=Domingo, 7=Sábado)."
+      - name: nome_dia_semana
+        description: "Nome do dia da semana."
+      - name: nome_mes
+        description: "Nome do mês."
+      - name: eh_fim_de_semana
+        description: "Flag que indica se a data é um fim de semana (1=Sim, 0=Não)."
+      - name: eh_dia_util
+        description: "Indica se é um dia útil (1=Sim, 0=Não)."
+      - name: categoria_temporada
+        description: "Classifica o mês em Alta ou Baixa Temporada."

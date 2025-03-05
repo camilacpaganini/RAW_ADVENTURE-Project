@@ -1,0 +1,19 @@
+version: 2
+
+models:
+  - name: int__prep_lojas
+    description: "Modelo intermediário consolidado de lojas."
+    columns:
+      - name: pk_loja
+        description: "Chave primária da loja."
+        tests:
+          - unique
+          - not_null
+      - name: nome_loja
+        description: "Nome da loja."
+      - name: fk_vendedor
+        description: "Chave estrangeira para o vendedor responsável."
+      - name: dados_demograficos
+        description: "Informações demográficas da loja."
+      - name: modificado_em
+        description: "Última data de modificação da loja."
