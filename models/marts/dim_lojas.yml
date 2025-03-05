@@ -1,0 +1,19 @@
+version: 2
+
+models:
+  - name: dim_lojas
+    description: "Tabela dimensão contendo informações das lojas e distribuidores."
+    columns:
+      - name: pk_loja
+        description: "Chave primária da loja."
+        tests:
+          - unique
+          - not_null
+      - name: nome_loja
+        description: "Nome da loja ou distribuidor."
+      - name: fk_vendedor
+        description: "Chave estrangeira referenciando o vendedor responsável pela loja."
+      - name: dados_demograficos
+        description: "Informações demográficas da loja."
+      - name: data_modificacao
+        description: "Data da última modificação no cadastro da loja."

@@ -132,11 +132,60 @@ sources:
             tests:
               - unique
               - not_null
+          - name: CUSTOMERID
+            description: "Chave estrangeira do cliente relacionado ao pedido."
           - name: STATUS
             description: "Status do pedido (exemplo: Pendente, Processado, Enviado, Cancelado)."
+          - name: ORDERDATE
+            description: "Data do pedido."
+          - name: DUEDATE
+            description: "Data de vencimento do pedido."
+          - name: SHIPDATE
+            description: "Data de envio do pedido."
+          - name: CREDITCARDID
+            description: "Chave estrangeira do cartão de crédito usado na compra."
+          - name: SUBTOTAL
+            description: "Valor subtotal do pedido."
+          - name: TAXAMT
+            description: "Valor dos impostos do pedido."
+          - name: FREIGHT
+            description: "Valor do frete."
+          - name: TOTALDUE
+            description: "Valor total do pedido."
           - name: MODIFIEDDATE
-            description: "Data de última atualização do status do pedido."
-            
+            description: "Data de última atualização do pedido."
+
+      - name: SalesOrderDetail
+        description: "Tabela de detalhes dos pedidos de venda."
+        columns:
+          - name: SALESORDERID
+            description: "Chave estrangeira do cabeçalho do pedido."
+          - name: SALESORDERDETAILID
+            description: "Chave primária do item do pedido."
+            tests:
+              - unique
+              - not_null
+          - name: PRODUCTID
+            description: "Chave estrangeira do produto."
+          - name: ORDERQTY
+            description: "Quantidade do produto solicitado."
+          - name: UNITPRICE
+            description: "Preço unitário do produto."
+          - name: UNITPRICEDISCOUNT
+            description: "Desconto aplicado ao item do pedido."
+          - name: MODIFIEDDATE
+            description: "Data de última atualização do item do pedido."
+
+      - name: SalesOrderHeaderSalesReason
+        description: "Tabela de relacionamento entre pedidos e motivos de venda."
+        columns:
+          - name: SALESORDERID
+            description: "Chave estrangeira do pedido."
+          - name: SALESREASONID
+            description: "Chave estrangeira do motivo de venda."
+          - name: MODIFIEDDATE
+            description: "Data de última atualização do relacionamento."
+
       - name: SalesReason
         description: "Tabela bruta de motivos de venda."
         columns:
