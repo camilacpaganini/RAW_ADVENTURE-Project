@@ -1,0 +1,51 @@
+version: 2
+
+models:
+  - name: int__prep_pedidos
+    description: "Modelo intermediário consolidando os pedidos de venda com métricas no nível de detalhe do pedido"
+    columns:
+      - name: pk_pedido_detalhe
+        description: "Chave primária do detalhe do pedido."
+        tests:
+          - unique
+          - not_null
+      - name: fk_pedido
+        description: "Chave estrangeira do pedido."
+      - name: fk_cliente
+        description: "Chave estrangeira do cliente."
+      - name: fk_status_pedido
+        description: "Chave estrangeira do status do pedido."
+      - name: fk_produto
+        description: "Chave estrangeira do produto."
+      - name: fk_cartao_credito
+        description: "Chave estrangeira do cartão de crédito."
+      - name: fk_motivo_venda
+        description: "Chave estrangeira do motivo de venda."
+      - name: data_pedido
+        description: "Data do pedido."
+      - name: data_vencimento
+        description: "Data de vencimento do pedido."
+      - name: data_envio
+        description: "Data de envio do pedido."
+      - name: valor_subtotal
+        description: "Valor subtotal do pedido."
+      - name: valor_imposto
+        description: "Valor do imposto do pedido."
+      - name: valor_frete
+        description: "Valor do frete."
+      - name: valor_total
+        description: "Valor total do pedido."
+      - name: quantidade
+        description: "Quantidade de produtos no pedido."
+      - name: preco_unitario
+        description: "Preço unitário do produto."
+      - name: desconto
+        description: "Desconto aplicado no pedido."
+      - name: total_bruto
+        description: "Valor bruto do pedido (preço unitário x quantidade)."
+      - name: total_liquido
+        description: "Valor líquido do pedido (preço unitário x quantidade x desconto)."
+      - name: frete_rateado
+        description: "Valor do frete distribuído por item do pedido."
+      - name: teve_desconto
+        description: "Indica se o pedido teve desconto (true/false)."
