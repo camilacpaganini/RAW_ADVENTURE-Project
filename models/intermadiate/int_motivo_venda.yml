@@ -1,0 +1,15 @@
+version: 2
+
+models:
+  - name: int__prep_motivo_venda
+    description: "Tabela intermediária consolidando os motivos de venda."
+    columns:
+      - name: pk_motivo_venda
+        description: "Chave primária do motivo de venda."
+        tests:
+          - unique
+          - not_null
+      - name: nome_motivo_venda
+        description: "Nome do motivo de venda."
+      - name: tipo_motivo_venda
+        description: "Tipo do motivo de venda (exemplo: Preço, Promoção, etc.)."

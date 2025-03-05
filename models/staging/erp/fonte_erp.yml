@@ -83,7 +83,7 @@ sources:
             description: "Nome do território."
           - name: COUNTRYREGIONCODE
             description: "Código do país ou região."
-          - name: group
+          - name: GROUP
             description: "Grupo ou agrupamento do território."
           - name: MODIFIEDDATE
             description: "Data de modificação do território."
@@ -106,3 +106,52 @@ sources:
             description: "Ano de expiração do cartão."
           - name: MODIFIEDDATE
             description: "Data de modificação do cartão."
+
+      - name: Store
+        description: "Tabela bruta de lojas e distribuidores."
+        columns:
+          - name: BUSINESSENTITYID
+            description: "Chave primária da loja."
+            tests:
+              - unique
+              - not_null
+          - name: NAME
+            description: "Nome da loja."
+          - name: SALESPERSONID
+            description: "Chave estrangeira para o vendedor responsável."
+          - name: DEMOGRAPHICS
+            description: "Informações demográficas da loja."
+          - name: MODIFIEDDATE
+            description: "Última data de modificação da loja."
+
+      - name: SalesOrderHeader
+        description: "Tabela de cabeçalhos dos pedidos de venda."
+        columns:
+          - name: SALESORDERID
+            description: "Chave primária do pedido."
+            tests:
+              - unique
+              - not_null
+          - name: STATUS
+            description: "Status do pedido (exemplo: Pendente, Processado, Enviado, Cancelado)."
+          - name: MODIFIEDDATE
+            description: "Data de última atualização do status do pedido."
+            
+      - name: SalesReason
+        description: "Tabela bruta de motivos de venda."
+        columns:
+          - name: SALESREASONID
+            description: "Chave primária do motivo de venda."
+            tests:
+              - unique
+              - not_null
+          - name: NAME
+            description: "Nome do motivo de venda."
+          - name: REASONTYPE
+            description: "Tipo do motivo de venda (exemplo: Preço, Promoção, etc.)."
+          - name: MODIFIEDDATE
+            description: "Última data de modificação do motivo de venda."
+
+        
+
+

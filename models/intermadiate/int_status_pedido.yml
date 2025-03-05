@@ -1,0 +1,13 @@
+version: 2
+
+models:
+  - name: int__prep_status_pedido
+    description: "Tabela intermediária consolidando status dos pedidos."
+    columns:
+      - name: pk_status_pedido
+        description: "Chave primária do status do pedido."
+        tests:
+          - unique
+          - not_null
+      - name: descricao_status_pedido
+        description: "Descrição do status do pedido."
