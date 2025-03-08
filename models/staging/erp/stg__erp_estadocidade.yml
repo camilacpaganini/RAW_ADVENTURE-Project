@@ -1,0 +1,28 @@
+version: 2
+
+models:
+  - name: stg__erp_estadocidade
+    description: "Tabela staging para estados/províncias, extraída de StateProvince."
+    columns:
+      - name: pk_estado_provincia
+        description: "Chave primária da província/estado, extraída de StateProvince.STATEPROVINCEID."
+        tests:
+          - unique
+          - not_null
+      - name: codigo_estado_provincia
+        description: "Código de abreviação do estado/província."
+      - name: codigo_pais_regiao
+        description: "Código do país ou região ao qual o estado pertence."
+      - name: nome_estado_provincia
+        description: "Nome do estado ou província."
+      - name: fk_territorio
+        description: "Chave estrangeira referenciando o território de vendas, vinculada a SalesTerritory.TERRITORYID."
+      - name: modified_date_estado_provincia
+        description: "Data da última modificação do estado/província."
+      - name: pk_territorio_estado
+        description: "Chave composta combinando estado/província com território."
+        tests:
+          - unique
+          - not_null
+
+

@@ -1,23 +1,36 @@
-version: 2
-
 models:
-  - name: dim_territorios
-    description: "Dimensão contendo informações sobre territórios de venda."
+  - name: dim_territorio
+    description: "Dimensão de território, unindo informações geográficas de territórios e estados/províncias."
     columns:
-      - name: pk_territorio
-        description: "Chave primária do território."
+      - name: pk_territorio_estado
+        description: "Chave primária composta do território e estado/província. Formada por fk_territorio || '-' || fk_estado_provincia."
         tests:
           - unique
           - not_null
 
+      - name: fk_territorio
+        description: "Chave estrangeira referenciando o território, proveniente de SalesTerritory."
+
+      - name: fk_estado_provincia
+        description: "Chave estrangeira referenciando o estado/província, proveniente de StateProvince."
+
       - name: nome_territorio
-        description: "Nome do território."
+        description: "Nome do território, conforme SalesTerritory."
+
+      - name: nome_estado_provincia
+        description: "Nome do estado/província, conforme StateProvince."
 
       - name: codigo_pais_regiao
-        description: "Código do país ou região correspondente ao território."
+        description: "Código do país/região vinculado ao território."
+
+      - name: codigo_estado_provincia
+        description: "Código do estado/província associado."
 
       - name: grupo_territorio
-        description: "Grupo de território ao qual pertence."
+        description: "Grupo do território, categorização obtida de SalesTerritory."
 
       - name: modified_date_territorio
-        description: "Última data de modificação do território no sistema."
+        description: "Última modificação do território."
+
+      - name: modified_date_estado_provincia
+        description: "Última modificação do estado/província."

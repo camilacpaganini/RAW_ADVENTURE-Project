@@ -2,18 +2,37 @@ version: 2
 
 models:
   - name: int__prep_territorios
-    description: "Modelo intermediário que consolida os dados da tabela de SalesTerritory para a dimensão de territórios."
+    description: "Modelo intermediário que consolida informações de territórios e estados/províncias, combinando dados das tabelas SalesTerritory e StateProvince."
     columns:
-      - name: pk_territorio
-        description: "Chave primária do território, extraída de SalesTerritory.TERRITORYID."
+      - name: pk_territorio_estado
+        description: "Chave primária composta do território e estado/província. Formada por pk_territorio || '-' || pk_estado_provincia."
         tests:
           - unique
           - not_null
+
+      - name: fk_territorio
+        description: "Chave estrangeira referenciando o território da tabela SalesTerritory."
+
+      - name: fk_estado_provincia
+        description: "Chave estrangeira referenciando o estado/província da tabela StateProvince."
+
       - name: nome_territorio
-        description: "Nome do território, proveniente de SalesTerritory.NAME."
+        description: "Nome do território, extraído de SalesTerritory."
+
+      - name: nome_estado_provincia
+        description: "Nome do estado/província, extraído de StateProvince."
+
       - name: codigo_pais_regiao
-        description: "Código do país ou região, extraído de SalesTerritory.COUNTRYREGIONCODE."
+        description: "Código do país ou região do território, obtido de SalesTerritory."
+
+      - name: codigo_estado_provincia
+        description: "Código do estado/província, obtido de StateProvince."
+
       - name: grupo_territorio
-        description: "Grupo de território, obtido da coluna 'group' da tabela SalesTerritory, renomeada para evitar conflitos com palavras reservadas."
+        description: "Grupo de território, categorização de SalesTerritory."
+
       - name: modified_date_territorio
-        description: "Data da última modificação dos dados do território, extraída de SalesTerritory.MODIFIEDDATE."
+        description: "Data da última modificação do território, proveniente de SalesTerritory."
+
+      - name: modified_date_estado_provincia
+        description: "Data da última modificação do estado/província, proveniente de StateProvince."
