@@ -108,7 +108,29 @@ sources:
               - relationships:
                   to: source('erp', 'SalesTerritory')
                   field: TERRITORYID
-                  
+      - name: Address
+        description: "Tabela bruta de endereços, contendo informações de cidade e estado/província."
+        columns:
+          - name: ADDRESSID
+            description: "Chave primária do endereço."
+            tests:
+              - unique
+              - not_null
+          - name: ADDRESSLINE1
+            description: "Endereço principal."
+          - name: ADDRESSLINE2
+            description: "Complemento do endereço (se aplicável)."
+          - name: CITY
+            description: "**Nome da cidade**, necessário para a modelagem da dimensão território."
+          - name: STATEPROVINCEID
+            description: "Chave estrangeira para a tabela StateProvince, indicando a qual estado/província pertence o endereço."
+            tests:
+              - relationships:
+                  to: source('erp', 'StateProvince')
+                  field: STATEPROVINCEID
+          - name: MODIFIEDDATE
+            description: "Data da última modificação do endereço."
+                      
       - name: CreditCard
         description: "Tabela bruta de cartões de crédito usados nas compras."
         columns:

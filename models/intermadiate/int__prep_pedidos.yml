@@ -2,50 +2,80 @@ version: 2
 
 models:
   - name: int__prep_pedidos
-    description: "Modelo intermediário consolidando os pedidos de venda com métricas no nível de detalhe do pedido"
+    description: "Modelo intermediário que consolida os dados de pedidos, incluindo detalhes do cliente, território e produtos."
     columns:
       - name: pk_pedido_detalhe
-        description: "Chave primária do detalhe do pedido."
+        description: "Chave primária do pedido detalhado, composta por SALESORDERID e SALESORDERDETAILID."
         tests:
           - unique
           - not_null
+
       - name: fk_pedido
-        description: "Chave estrangeira do pedido."
+        description: "Chave estrangeira para identificar o pedido."
+
       - name: fk_cliente
-        description: "Chave estrangeira do cliente."
+        description: "Chave estrangeira para identificar o cliente."
+
+      - name: fk_loja_cliente
+        description: "Chave estrangeira para identificar a loja associada ao cliente."
+
+      - name: fk_territorio_cliente
+        description: "Chave estrangeira que referencia o território do cliente."
+
+      - name: pk_estado_provincia
+        description: "Chave primária do estado/província associada ao território do cliente."
+
       - name: fk_status_pedido
-        description: "Chave estrangeira do status do pedido."
-      - name: fk_produto
-        description: "Chave estrangeira do produto."
-      - name: fk_cartao_credito
-        description: "Chave estrangeira do cartão de crédito."
-      - name: fk_motivo_venda
-        description: "Chave estrangeira do motivo de venda."
+        description: "Chave estrangeira para o status do pedido."
+
       - name: data_pedido
-        description: "Data do pedido."
+        description: "Data em que o pedido foi realizado."
+
       - name: data_vencimento
         description: "Data de vencimento do pedido."
+
       - name: data_envio
-        description: "Data de envio do pedido."
+        description: "Data em que o pedido foi enviado."
+
+      - name: fk_cartao_credito
+        description: "Chave estrangeira do cartão de crédito utilizado na compra."
+
       - name: valor_subtotal
-        description: "Valor subtotal do pedido."
+        description: "Valor subtotal do pedido antes de impostos e frete."
+
       - name: valor_imposto
-        description: "Valor do imposto do pedido."
+        description: "Valor total dos impostos aplicados ao pedido."
+
       - name: valor_frete
-        description: "Valor do frete."
+        description: "Valor do frete cobrado no pedido."
+
       - name: valor_total
-        description: "Valor total do pedido."
+        description: "Valor total do pedido, incluindo frete e impostos."
+
+      - name: fk_produto
+        description: "Chave estrangeira para o produto comprado."
+
       - name: quantidade
-        description: "Quantidade de produtos no pedido."
+        description: "Quantidade do produto comprado."
+
       - name: preco_unitario
-        description: "Preço unitário do produto."
+        description: "Preço unitário do produto no momento da compra."
+
       - name: desconto
-        description: "Desconto aplicado no pedido."
+        description: "Percentual de desconto aplicado ao item."
+
       - name: total_bruto
-        description: "Valor bruto do pedido (preço unitário x quantidade)."
+        description: "Valor total bruto do pedido (preço unitário * quantidade)."
+
       - name: total_liquido
-        description: "Valor líquido do pedido (preço unitário x quantidade x desconto)."
+        description: "Valor total líquido do pedido após desconto."
+
       - name: frete_rateado
-        description: "Valor do frete distribuído por item do pedido."
+        description: "Valor do frete distribuído proporcionalmente entre os itens do pedido."
+
       - name: teve_desconto
-        description: "Indica se o pedido teve desconto (true/false)."
+        description: "Indica se o item teve desconto aplicado (TRUE = sim, FALSE = não)."
+
+      - name: fk_motivo_venda
+        description: "Motivo da venda, representado por um identificador."
+

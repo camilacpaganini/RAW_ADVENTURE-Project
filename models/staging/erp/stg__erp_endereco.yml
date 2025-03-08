@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: stg__erp_endereco
+    description: "Tabela de staging para consolidar os dados de endereço, incluindo a cidade e a ligação com o estado/província."
+    columns:
+      - name: pk_endereco
+        description: "Chave primária do endereço, vinda da coluna ADDRESSID."
+        tests:
+          - unique
+          - not_null
+
+      - name: endereco_linha1
+        description: "Endereço principal (rua, número, etc.)."
+
+      - name: endereco_linha2
+        description: "Complemento do endereço (se aplicável)."
+
+      - name: cidade
+        description: "Nome da cidade associada ao endereço."
+
+      - name: fk_estado_provincia
+        description: "Chave estrangeira que referencia o estado/província na tabela StateProvince."
+        tests:
+          - relationships:
+              to: ref('stg__erp_estadocidade')
+              field: pk_estado_provincia
+
+      - name: modified_date_endereco
+        description: "Data da última modificação do endereço."

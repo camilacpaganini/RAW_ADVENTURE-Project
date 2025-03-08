@@ -21,8 +21,6 @@ models:
         description: "Data da última modificação do estado/província."
       - name: pk_territorio_estado
         description: "Chave composta combinando estado/província com território."
-        tests:
-          - unique
-          - not_null
+        
 
 

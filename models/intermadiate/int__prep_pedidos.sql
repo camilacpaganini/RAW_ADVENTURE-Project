@@ -1,60 +1,91 @@
-with 
-    pedido as (
-        select 
-            p.*,
-            c.fk_loja_cliente,   
-            c.fk_territorio_cliente  
-        from {{ ref('stg__erp_pedido') }} p
-        left join {{ ref('stg__erp_cliente') }} c 
-            on p.fk_cliente = c.pk_cliente
+WITH 
+    pedido AS (
+        SELECT DISTINCT  
+            p.pk_pedido,
+            p.fk_cliente,
+            p.fk_status_pedido,
+            p.data_pedido,
+            p.data_vencimento,
+            p.data_envio,
+            p.fk_cartao_credito,
+            p.valor_subtotal,
+            p.valor_imposto,
+            p.valor_frete,
+            p.valor_total,
+            c.fk_loja_cliente,
+            c.fk_territorio_cliente,
+            t.pk_estado_provincia  
+        FROM {{ ref('stg__erp_pedido') }} p
+        LEFT JOIN {{ ref('stg__erp_cliente') }} c 
+            ON p.fk_cliente = c.pk_cliente
+        LEFT JOIN (
+            SELECT DISTINCT fk_territorio, MIN(pk_estado_provincia) AS pk_estado_provincia
+            FROM {{ ref('int__prep_territorios') }}
+            GROUP BY fk_territorio
+        ) t  
+            ON c.fk_territorio_cliente = t.fk_territorio  
     )
-
-,   pedido_detalhes as (
-        select * from {{ ref('stg__erp_pedido_detalhes') }}
+,   pedido_detalhes AS (
+        SELECT DISTINCT  
+            pk_pedido_detalhe,
+            fk_pedido,
+            fk_produto,
+            quantidade,
+            preco_unitario,
+            desconto
+        FROM {{ ref('stg__erp_pedido_detalhes') }}
     )
-
-,   pedido_motivo as (
-        select 
+,   pedido_motivo AS (
+        SELECT 
             fk_pedido, 
-            listagg(cast(fk_motivo_venda as varchar), ', ') within group (order by fk_motivo_venda) as motivos_venda
-        from {{ ref('stg__erp_pedido_motivo') }}
-        group by fk_pedido
+            ARRAY_TO_STRING(ARRAY_AGG(DISTINCT CAST(fk_motivo_venda AS VARCHAR)), ', ') AS motivos_venda
+        FROM {{ ref('stg__erp_pedido_motivo') }}
+        GROUP BY fk_pedido
+    )
+,   consolidado AS (
+        SELECT 
+            pd.pk_pedido_detalhe,
+            pd.fk_pedido,
+            p.fk_cliente,
+            p.fk_loja_cliente,
+            p.fk_territorio_cliente,
+            p.pk_estado_provincia, 
+            p.fk_status_pedido,
+            p.data_pedido,
+            p.data_vencimento,
+            p.data_envio,
+            p.fk_cartao_credito,
+            p.valor_subtotal,
+            p.valor_imposto,
+            p.valor_frete,
+            p.valor_total,
+            pd.fk_produto,
+            pd.quantidade,
+            pd.preco_unitario,
+            pd.desconto,
+            pd.preco_unitario * pd.quantidade AS total_bruto,
+            pd.preco_unitario * (1 - pd.desconto) * pd.quantidade AS total_liquido,
+
+            -- 🔥 Garante um rateio correto do frete
+            CAST((p.valor_frete / NULLIF(COUNT(pd.pk_pedido_detalhe) 
+            OVER(PARTITION BY p.pk_pedido), 0)) AS NUMERIC(18,2)) AS frete_rateado,
+
+            CASE 
+                WHEN pd.desconto > 0 THEN TRUE 
+                ELSE FALSE 
+            END AS teve_desconto,
+
+            COALESCE(pm.motivos_venda, 'Desconhecido') AS fk_motivo_venda
+
+        FROM pedido_detalhes pd
+        INNER JOIN pedido p 
+            ON pd.fk_pedido = p.pk_pedido
+        LEFT JOIN pedido_motivo pm
+            ON p.pk_pedido = pm.fk_pedido
     )
 
-,   consolidado as (
-        select 
-            pedido_detalhes.pk_pedido_detalhe
-        ,   pedido_detalhes.fk_pedido
-        ,   pedido.fk_cliente
-        ,   pedido.fk_loja_cliente  
-        ,   pedido.fk_territorio_cliente  
-        ,   pedido.fk_status_pedido
-        ,   pedido.data_pedido
-        ,   pedido.data_vencimento
-        ,   pedido.data_envio
-        ,   pedido.fk_cartao_credito
-        ,   pedido.valor_subtotal
-        ,   pedido.valor_imposto
-        ,   pedido.valor_frete
-        ,   pedido.valor_total
-        ,   pedido_detalhes.fk_produto
-        ,   pedido_detalhes.quantidade
-        ,   pedido_detalhes.preco_unitario
-        ,   pedido_detalhes.desconto
-        ,   pedido_detalhes.preco_unitario * pedido_detalhes.quantidade as total_bruto
-        ,   pedido_detalhes.preco_unitario * (1 - pedido_detalhes.desconto) * pedido_detalhes.quantidade as total_liquido
-        ,   coalesce(pedido.valor_frete / nullif(count(*) over(partition by pedido.pk_pedido), 0), 0) as frete_rateado
-        ,   case
-                when pedido_detalhes.desconto > 0 then true
-                else false
-            end as teve_desconto
-        ,   coalesce(pedido_motivo.motivos_venda, 'Desconhecido') as fk_motivo_venda
-        from pedido_detalhes
-        inner join pedido on pedido_detalhes.fk_pedido = pedido.pk_pedido
-        left join pedido_motivo on pedido.pk_pedido = pedido_motivo.fk_pedido
-    )
+SELECT * FROM consolidado
 
-select *
-from consolidado
+
 
 
