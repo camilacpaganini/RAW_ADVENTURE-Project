@@ -15,7 +15,3 @@ with
 
 select *
 from renomeando
-
-
-
-

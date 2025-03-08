@@ -88,6 +88,27 @@ sources:
           - name: MODIFIEDDATE
             description: "Data de modificação do território."
 
+      - name: StateProvince
+        description: "Tabela bruta de estados/províncias."
+        columns:
+          - name: STATEPROVINCEID
+            description: "Chave primária da província ou estado."
+            tests:
+              - unique
+              - not_null
+          - name: STATEPROVINCECODE
+            description: "Código do estado/província."
+          - name: COUNTRYREGIONCODE
+            description: "Código do país ou região."
+          - name: NAME
+            description: "Nome do estado ou província."
+          - name: TERRITORYID
+            description: "Chave estrangeira para o território."
+            tests:
+              - relationships:
+                  to: source('erp', 'SalesTerritory')
+                  field: TERRITORYID
+                  
       - name: CreditCard
         description: "Tabela bruta de cartões de crédito usados nas compras."
         columns:
@@ -200,7 +221,4 @@ sources:
             description: "Tipo do motivo de venda (exemplo: Preço, Promoção, etc.)."
           - name: MODIFIEDDATE
             description: "Última data de modificação do motivo de venda."
-
-        
-
 

@@ -2,8 +2,8 @@ with
     pedido as (
         select 
             p.*,
-            c.fk_loja_cliente,   -- Adicionando FK_LOJA
-            c.fk_territorio_cliente  -- Adicionando FK_TERRITÓRIO
+            c.fk_loja_cliente,   
+            c.fk_territorio_cliente  
         from {{ ref('stg__erp_pedido') }} p
         left join {{ ref('stg__erp_cliente') }} c 
             on p.fk_cliente = c.pk_cliente
