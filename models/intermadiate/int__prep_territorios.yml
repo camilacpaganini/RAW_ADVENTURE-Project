@@ -2,37 +2,42 @@ version: 2
 
 models:
   - name: int__prep_territorios
-    description: "Modelo intermediário que consolida informações de territórios e estados/províncias, combinando dados das tabelas SalesTerritory e StateProvince."
+    description: "Modelo intermediário que consolida os dados de territórios, estados e cidades para análise geográfica."
     columns:
-      - name: pk_territorio_estado
-        description: "Chave primária composta do território e estado/província. Formada por pk_territorio || '-' || pk_estado_provincia."
+      - name: pk_estado_provincia
+        description: "Chave primária do estado/província, extraída de StateProvince."
         tests:
           - unique
           - not_null
 
       - name: fk_territorio
-        description: "Chave estrangeira referenciando o território da tabela SalesTerritory."
-
-      - name: fk_estado_provincia
-        description: "Chave estrangeira referenciando o estado/província da tabela StateProvince."
-
-      - name: nome_territorio
-        description: "Nome do território, extraído de SalesTerritory."
+        description: "Chave estrangeira para território, permitindo a relação entre estado/província e territórios de venda."
+        tests:
+          - relationships:
+              to: ref('stg__erp_territorio')
+              field: pk_territorio
 
       - name: nome_estado_provincia
-        description: "Nome do estado/província, extraído de StateProvince."
-
-      - name: codigo_pais_regiao
-        description: "Código do país ou região do território, obtido de SalesTerritory."
+        description: "Nome do estado ou província."
 
       - name: codigo_estado_provincia
-        description: "Código do estado/província, obtido de StateProvince."
+        description: "Código identificador do estado ou província."
+
+      - name: cidade
+        description: "Nome da cidade associada ao estado/província, extraída da tabela de endereços."
+
+      - name: nome_territorio
+        description: "Nome do território de vendas, agrupando estados/províncias."
+
+      - name: codigo_pais_regiao
+        description: "Código do país ou região, permitindo análises internacionais."
 
       - name: grupo_territorio
-        description: "Grupo de território, categorização de SalesTerritory."
+        description: "Grupo de território definido na estrutura de vendas da empresa."
 
       - name: modified_date_territorio
-        description: "Data da última modificação do território, proveniente de SalesTerritory."
+        description: "Data da última modificação dos dados do território."
 
       - name: modified_date_estado_provincia
-        description: "Data da última modificação do estado/província, proveniente de StateProvince."
+        description: "Data da última modificação dos dados do estado/província."
+
